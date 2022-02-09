@@ -126,6 +126,35 @@
         "jolly"
       ],
       "id": "12"
+    },
+    {
+      "name": "Steve",
+      "species": "monkey",
+      "diet": "carnivore",
+      "personalityTraits": [
+        "hungry",
+        "zany"
+      ],
+      "id": "13"
+    },
+    {
+      "name": "Gary",
+      "species": "Snake",
+      "diet": "herbivore",
+      "personalityTraits": [
+        "zany",
+        "anxious"
+      ],
+      "id": "14"
+    },
+    {
+      "name": "Travis",
+      "species": "Tiger",
+      "diet": "carnivore",
+      "personalityTraits": [
+        "goofy"
+      ],
+      "id": "15"
     }
   ]
 }

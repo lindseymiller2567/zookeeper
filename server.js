@@ -1,13 +1,15 @@
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
-const { animals } = require('./data/animals.json')
+const { animals } = require('./data/animals')
 
 const PORT = process.env.PORT || 3001;
 const app = express();
 
+// middleware functions 
 app.use(express.urlencoded({ extended: true }));  // parse (convert) incoming string or array data
 app.use(express.json());  // parse incoming JSON data
+app.use(express.static('public'))  // instructs the server to make these files static resources 
 
 function filterByQuery(query, animalsArray) {
     let personalityTraitsArray = [];
@@ -75,7 +77,7 @@ function validateAnimal(animal) { // in this case, 'animal' parameter is going t
     if (!animal.diet || typeof animal.diet !== 'string') {
         return false;
     }
-    if (!animal.personalityTraits || typeof animal.personalityTraits !== 'string') {
+    if (!animal.personalityTraits || !Array.isArray(animal.personalityTraits)) {
         return false;
     }
     return true;
@@ -115,6 +117,28 @@ app.post('/api/animals', (req, res) => {
         res.json(animal)
     }
 });
+
+// get route to view index.html in the browser 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+    console.log(__dirname)
+});
+
+// get route to view the animals.html page in the browser
+app.get('/animals', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/animals.html'))
+})
+
+// get route to view the zookeepers.html page in teh broswer
+app.get('/zookeepers', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/zookeepers.html'));
+});
+
+// wildcard route (in case user tries to access route that doesn't exist)
+// NOTE: this wildcard route should always come last in the order of routes
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'))
+})
 
 app.listen(PORT, () => {
     console.log(`API server now on port ${PORT}!`)
